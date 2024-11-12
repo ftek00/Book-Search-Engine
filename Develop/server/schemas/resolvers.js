@@ -1,6 +1,5 @@
 const { User } = require("../models");
-const { signToken } = require("../utils/auth");
-const { AuthenticationError } = require("apollo-server-express");
+const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
@@ -13,6 +12,7 @@ const resolvers = {
         }
       }
 
+      // Corrected: Instantiate AuthenticationError
       throw new AuthenticationError("You need to be logged in!");
     },
   },
@@ -53,6 +53,8 @@ const resolvers = {
           throw new Error("Error saving book");
         }
       }
+
+      // Corrected: Instantiate AuthenticationError
       throw new AuthenticationError("You need to be logged in!");
     },
 
@@ -68,6 +70,8 @@ const resolvers = {
           throw new Error("Error removing book");
         }
       }
+
+      // Corrected: Instantiate AuthenticationError
       throw new AuthenticationError("You need to be logged in!");
     },
   },

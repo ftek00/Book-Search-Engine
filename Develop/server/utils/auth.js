@@ -5,13 +5,23 @@ const { GraphQLError } = require("graphql");
 const secret = "mysecretsshhhhh";
 const expiration = "2h";
 
+// Define AuthenticationError as a class that extends Error
+class AuthenticationError extends GraphQLError {
+  constructor(message) {
+    super(message, {
+      // Customize the error extensions for unauthenticated users
+      extensions: {
+        code: "UNAUTHENTICATED",
+      },
+    });
+    this.name = "AuthenticationError";
+  }
+}
+
 module.exports = {
-  AuthenticationError: new GraphQLError("Could not authenticate user.", {
-    // Error for unauthenticated users
-    extensions: {
-      code: "UNAUTHENTICATED",
-    },
-  }),
+  // Export the AuthenticationError class instead of a single instance
+  AuthenticationError,
+
   // function for our authenticated routes
   authMiddleware: function ({ req }) {
     // allows token to be sent via  req.query or headers
